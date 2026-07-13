@@ -1,41 +1,63 @@
 # 💰 Expense Tracker Backend
 
-A secure RESTful Expense Tracker backend built using **Spring Boot**. The application provides user authentication with **JWT**, password encryption using **BCrypt**, and a layered architecture for building scalable REST APIs.
+A secure, scalable, and RESTful Expense Tracker backend built using **Spring Boot**. This project demonstrates industry-standard backend development practices, including **JWT Authentication**, **Spring Security**, **Hibernate**, **JPA**, and **MySQL**.
+
+> **Current Status:** Authentication Module ✅ | Expense Management Module 🚧
 
 ---
 
-## 🚀 Features
+# 📖 Overview
 
-### Authentication
+The Expense Tracker Backend provides secure user authentication and authorization using JSON Web Tokens (JWT). It follows a layered architecture with Controllers, Services, Repositories, DTOs, and Global Exception Handling to build maintainable and scalable REST APIs.
+
+The project is being developed as a portfolio project to demonstrate modern Java backend development practices.
+
+---
+
+# ✨ Features
+
+## 🔐 Authentication
+
 - User Registration
 - User Login
-- JWT Authentication
+- JWT Token Generation
+- JWT Authentication Filter
+- Stateless Authentication
 - BCrypt Password Encryption
 - Protected REST APIs
 
-### Security
+---
+
+## 🛡️ Security
+
 - Spring Security
 - JWT Token Validation
-- Stateless Authentication
-- Role-based authentication ready
+- Password Hashing using BCrypt
+- Authentication & Authorization
+- Secure API Access
 
-### Backend
-- RESTful APIs
+---
+
+## ⚙️ Backend
+
+- RESTful API Development
+- Spring Boot
 - Spring Data JPA
 - Hibernate ORM
 - MySQL Database
 - DTO Pattern
+- Layered Architecture
 - Global Exception Handling
 - Request Validation
 
 ---
 
-## 🛠 Tech Stack
+# 🛠️ Tech Stack
 
 | Technology | Version |
 |------------|---------|
 | Java | 21 |
-| Spring Boot | 3.5.16 |
+| Spring Boot | 3.5.x |
 | Spring Security | 6.x |
 | Spring Data JPA | Latest |
 | Hibernate | 6.x |
@@ -45,79 +67,125 @@ A secure RESTful Expense Tracker backend built using **Spring Boot**. The applic
 
 ---
 
-## 📁 Project Structure
+# 📂 Project Structure
 
 ```
-src
- ├── main
- │   ├── java
- │   │   └── com.varun.expensetracker
- │   │        ├── config
- │   │        ├── controller
- │   │        ├── dto
- │   │        ├── entity
- │   │        ├── exception
- │   │        ├── filter
- │   │        ├── repository
- │   │        ├── service
- │   │        └── ExpenseTrackerApplication.java
- │   │
- │   └── resources
- │        └── application.properties
- │
- └── test
+expense-tracker
+│
+├── src
+│   ├── main
+│   │
+│   ├── java
+│   │   └── com.varun.expensetracker
+│   │       ├── config
+│   │       ├── controller
+│   │       ├── dto
+│   │       ├── entity
+│   │       ├── exception
+│   │       ├── filter
+│   │       ├── repository
+│   │       ├── service
+│   │       └── ExpenseTrackerApplication.java
+│   │
+│   └── resources
+│       ├── application-example.properties
+│       ├── static
+│       └── templates
+│
+├── pom.xml
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-## 🔐 Authentication APIs
+# 🔐 Authentication APIs
 
-### Register User
+## Register User
 
 ```
 POST /api/users/register
 ```
 
-### Login User
-
-```
-POST /api/users/login
-```
-
-Returns:
+### Request
 
 ```json
 {
-    "token": "JWT_TOKEN",
-    "message": "Login Successful"
+    "name":"Rahul",
+    "email":"rahul@gmail.com",
+    "password":"123456"
 }
 ```
 
 ---
 
-## 🔒 Protected API Example
+## Login User
+
+```
+POST /api/users/login
+```
+
+### Request
+
+```json
+{
+    "email":"rahul@gmail.com",
+    "password":"123456"
+}
+```
+
+### Response
+
+```json
+{
+    "token":"JWT_TOKEN",
+    "message":"Login Successful"
+}
+```
+
+---
+
+# 🔒 Protected APIs
+
+Example:
 
 ```
 GET /api/test
 ```
 
-Header
+### Header
 
 ```
-Authorization: Bearer <JWT_TOKEN>
+Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
 ---
 
-## ⚙️ Configuration
+# ⚙️ Configuration
 
-Create a MySQL database:
+## 1. Create MySQL Database
 
 ```sql
 CREATE DATABASE expense_tracker;
 ```
 
-Create an `application.properties` file based on `application-example.properties` and configure:
+---
+
+## 2. Configure Application
+
+Copy
+
+```
+application-example.properties
+```
+
+to
+
+```
+application.properties
+```
+
+Update the following values:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/expense_tracker
@@ -130,21 +198,21 @@ jwt.expiration=86400000
 
 ---
 
-## ▶️ Run the Project
+# ▶️ Running the Project
 
-Clone the repository:
+Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/expense-tracker.git
+git clone https://github.com/YOUR_GITHUB_USERNAME/expense-tracker.git
 ```
 
-Navigate to the project:
+Navigate to the project
 
 ```bash
 cd expense-tracker
 ```
 
-Run the application:
+Run using Maven Wrapper
 
 ```bash
 ./mvnw spring-boot:run
@@ -158,38 +226,100 @@ mvn spring-boot:run
 
 ---
 
-## 📌 Current Status
+# 🗄️ Database
 
-- ✅ User Registration
-- ✅ User Login
-- ✅ JWT Authentication
-- ✅ Spring Security
-- ✅ Password Encryption
-- ✅ Global Exception Handling
-- ✅ Request Validation
+Database Used
 
-### 🚧 Upcoming Features
+- MySQL 8.x
 
-- Expense CRUD APIs
-- Category-wise Expenses
-- Monthly Reports
-- Dashboard APIs
-- Pagination & Sorting
-- Search & Filters
-- Swagger/OpenAPI Documentation
+ORM
+
+- Hibernate
+
+Persistence
+
+- Spring Data JPA
 
 ---
 
-## 👨‍💻 Author
+# 📌 Current Progress
+
+## Completed
+
+- User Registration
+- User Login
+- JWT Authentication
+- Spring Security
+- BCrypt Password Encryption
+- Global Exception Handling
+- Request Validation
+- DTO Layer
+- Repository Layer
+- Service Layer
+
+---
+
+## 🚧 Upcoming Features
+
+- Expense CRUD APIs
+- Category Management
+- Expense Filters
+- Monthly Reports
+- Dashboard APIs
+- Pagination
+- Sorting
+- Search APIs
+- Swagger/OpenAPI Documentation
+- Docker Deployment
+
+---
+
+# 🚀 Future Improvements
+
+- Role-Based Authorization
+- Refresh Tokens
+- Email Verification
+- Password Reset
+- Unit Testing
+- Integration Testing
+- Docker
+- CI/CD Pipeline
+- AWS Deployment
+
+---
+
+# 🤝 Contributing
+
+Contributions, suggestions, and improvements are welcome.
+
+1. Fork the repository
+2. Create a new feature branch
+3. Commit your changes
+4. Push the branch
+5. Open a Pull Request
+
+---
+
+# 👨‍💻 Author
 
 **Boddu Madhu Veera Satya Varun**
 
-GitHub: https://github.com/YOUR_USERNAME
+Information Technology Student
 
-LinkedIn: Add your LinkedIn profile here.
+GitHub:
+https://github.com/bvarun18
+
+LinkedIn:
+(Add your LinkedIn profile URL here)
 
 ---
 
-## 📜 License
+# 📄 License
 
-This project is created for learning and portfolio purposes.
+This project is developed for educational purposes and portfolio demonstration.
+
+Feel free to use this project as a reference for learning Spring Boot, Spring Security, JWT Authentication, Hibernate, and REST API development.
+
+---
+
+⭐ If you found this project useful, consider giving it a Star on GitHub!
