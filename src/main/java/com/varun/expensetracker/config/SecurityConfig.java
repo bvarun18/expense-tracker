@@ -27,9 +27,18 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                // Public APIs
                                 "/api/users/register",
-                                "/api/users/login"
+                                "/api/users/login",
+
+                                // Swagger/OpenAPI
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs",
+                                "/webjars/**"
                         ).permitAll()
+
                         .anyRequest().authenticated()
                 )
 

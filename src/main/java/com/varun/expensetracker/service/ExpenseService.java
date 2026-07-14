@@ -9,6 +9,8 @@ import com.varun.expensetracker.exception.ExpenseNotFoundException;
 import com.varun.expensetracker.exception.UserNotFoundException;
 import com.varun.expensetracker.repository.ExpenseRepository;
 import com.varun.expensetracker.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,9 @@ import java.util.List;
 
 @Service
 public class ExpenseService {
+
+    private static final Logger logger =
+            LoggerFactory.getLogger(ExpenseService.class);
 
     private final ExpenseRepository expenseRepository;
     private final UserRepository userRepository;
@@ -69,6 +74,8 @@ public class ExpenseService {
 
         User user = getCurrentUser(userDetails);
 
+        logger.info("Adding expense for user: {}", user.getEmail());
+
         Expense expense = new Expense();
 
         expense.setTitle(request.getTitle());
@@ -79,6 +86,8 @@ public class ExpenseService {
         expense.setUser(user);
 
         Expense savedExpense = expenseRepository.save(expense);
+
+        logger.info("Expense added successfully with ID: {}", savedExpense.getId());
 
         return mapToResponse(savedExpense);
     }
@@ -91,6 +100,8 @@ public class ExpenseService {
             UserDetails userDetails) {
 
         User user = getCurrentUser(userDetails);
+
+        logger.info("Fetching all expenses for user: {}", user.getEmail());
 
         return expenseRepository.findByUser(user)
                 .stream()
@@ -107,6 +118,8 @@ public class ExpenseService {
             UserDetails userDetails) {
 
         User user = getCurrentUser(userDetails);
+
+        logger.info("Fetching expense {} for user {}", id, user.getEmail());
 
         Expense expense = expenseRepository
                 .findByIdAndUser(id, user)
@@ -127,6 +140,8 @@ public class ExpenseService {
 
         User user = getCurrentUser(userDetails);
 
+        logger.info("Updating expense {} for user {}", id, user.getEmail());
+
         Expense expense = expenseRepository
                 .findByIdAndUser(id, user)
                 .orElseThrow(() ->
@@ -139,6 +154,8 @@ public class ExpenseService {
         expense.setExpenseDate(request.getExpenseDate());
 
         Expense updatedExpense = expenseRepository.save(expense);
+
+        logger.info("Expense updated successfully with ID: {}", updatedExpense.getId());
 
         return mapToResponse(updatedExpense);
     }
@@ -153,12 +170,16 @@ public class ExpenseService {
 
         User user = getCurrentUser(userDetails);
 
+        logger.info("Deleting expense {} for user {}", id, user.getEmail());
+
         Expense expense = expenseRepository
                 .findByIdAndUser(id, user)
                 .orElseThrow(() ->
                         new ExpenseNotFoundException("Expense not found"));
 
         expenseRepository.delete(expense);
+
+        logger.info("Expense deleted successfully with ID: {}", id);
 
         return "Expense deleted successfully";
     }
@@ -172,6 +193,8 @@ public class ExpenseService {
             UserDetails userDetails) {
 
         User user = getCurrentUser(userDetails);
+
+        logger.info("Searching expenses with keyword '{}' for user {}", keyword, user.getEmail());
 
         return expenseRepository
                 .findByUserAndTitleContainingIgnoreCase(user, keyword)
@@ -190,6 +213,8 @@ public class ExpenseService {
 
         User user = getCurrentUser(userDetails);
 
+        logger.info("Filtering expenses by category {} for user {}", category, user.getEmail());
+
         return expenseRepository
                 .findByUserAndCategory(user, category)
                 .stream()
@@ -207,6 +232,13 @@ public class ExpenseService {
             UserDetails userDetails) {
 
         User user = getCurrentUser(userDetails);
+
+        logger.info(
+                "Filtering expenses between {} and {} for user {}",
+                startDate,
+                endDate,
+                user.getEmail()
+        );
 
         return expenseRepository
                 .findByUserAndExpenseDateBetween(
@@ -229,6 +261,13 @@ public class ExpenseService {
             UserDetails userDetails) {
 
         User user = getCurrentUser(userDetails);
+
+        logger.info(
+                "Filtering expenses between {} and {} for user {}",
+                min,
+                max,
+                user.getEmail()
+        );
 
         return expenseRepository
                 .findByUserAndAmountBetween(
@@ -254,6 +293,15 @@ public class ExpenseService {
 
         User user = getCurrentUser(userDetails);
 
+        logger.info(
+                "Fetching page {} size {} sorted by {} {} for user {}",
+                page,
+                size,
+                sortBy,
+                direction,
+                user.getEmail()
+        );
+
         Sort sort = direction.equalsIgnoreCase("desc")
                 ? Sort.by(sortBy).descending()
                 : Sort.by(sortBy).ascending();
@@ -264,5 +312,4 @@ public class ExpenseService {
                 .findByUser(user, pageable)
                 .map(this::mapToResponse);
     }
-
 }
