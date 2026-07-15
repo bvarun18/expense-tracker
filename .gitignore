@@ -17,7 +17,7 @@ target/
 # Application Configuration
 #############################
 
-src/main/resources/application.properties
+#src/main/resources/application.properties
 
 #############################
 # Spring Tool Suite
